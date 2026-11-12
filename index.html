@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#171311">
+  <meta name="description" content="KickZone Archive. Dez tênis reais escaneados para explorar em 3D.">
+  <title>KickZone Archive — 10 tênis em 3D</title>
+  <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="fitting.css">
+  <link rel="stylesheet" href="foot-camera.css">
+  <script defer src="assets/showroom.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" type="button" aria-label="KickZone, voltar ao destaque">
+      <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M8 24 20 12H12v-4h16v16h-4v-8L12 28z"/></svg>
+      <span>KICKZONE<small>ARCHIVE</small></span>
+    </button>
+    <span class="topbar-code mono">ARQUIVO DE CALÇADOS <i></i> VOL. 01</span>
+    <nav class="topbar-actions" aria-label="Navegação da KickZone">
+      <button class="mode-button mono" id="gallery-toggle" type="button" aria-pressed="false">
+        <svg viewBox="0 0 18 18" aria-hidden="true"><path d="M2 2h5v5H2zm9 0h5v5h-5zM2 11h5v5H2zm9 0h5v5h-5z"/></svg>
+        <span>VITRINE</span> <b>10</b>
+      </button>
+      <button class="fitting-entry mono" id="fitting-open" type="button" aria-controls="fitting-room">Provador <span aria-hidden="true">↗</span></button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="showroom" id="showroom" data-mode="focus" aria-label="Vitrine de tênis KickZone">
+      <div class="world">
+        <div class="wall" aria-hidden="true"></div>
+        <div class="light-pool" aria-hidden="true"></div>
+        <canvas id="scene" aria-hidden="true"></canvas>
+        <img class="stand-in" src="assets/scans/crazy-8.webp" alt="" decoding="async">
+
+        <div class="product-heading">
+          <p class="eyebrow mono"><i></i> SCAN <span id="edition-code">01</span> / 10</p>
+          <h1 id="model-name" tabindex="-1" aria-live="polite">Crazy 8</h1>
+          <p class="product-tone mono" id="model-tone">adidas / Branco / roxo / menta</p>
+          <p class="description" id="model-description">O solado ondulado sobe pela lateral. Gire o par para comparar os recortes roxos e a borracha menta.</p>
+          <a class="source-link mono" id="model-credit" href="https://fuel.gazebosim.org/1.0/GoogleResearch/models/Crazy_8" target="_blank" rel="noopener noreferrer">Scan: Google Research</a>
+          <div class="product-actions">
+            <button class="try-on" id="try-on" type="button">Experimentar no avatar <span aria-hidden="true">↗</span></button>
+            <button class="try-on" id="camera-try-on" type="button" aria-haspopup="dialog">Ver no meu pé <span aria-hidden="true">↗</span></button>
+          </div>
+        </div>
+
+        <div class="gallery-heading" hidden>
+          <p class="eyebrow mono"><i></i> KICKZONE / 10 SCANS</p>
+          <h2 id="gallery-title" tabindex="-1">A vitrine<span>.</span></h2>
+          <p>Escolha um par.</p>
+        </div>
+        <div class="products" aria-label="Pares da coleção" hidden></div>
+
+        <div class="focus-ui">
+          <div class="angles" id="angles" hidden>
+            <span class="mono">ÂNGULO</span>
+            <div class="angle-buttons" role="group" aria-label="Escolher ângulo do modelo">
+              <button type="button" data-angle="side" aria-pressed="true">Lateral</button>
+              <button type="button" data-angle="top" aria-pressed="false">Topo</button>
+              <button type="button" data-angle="sole" aria-pressed="false">Sola</button>
+            </div>
+          </div>
+          <button class="edge edge-prev" type="button" data-step="-1" aria-label="Tênis anterior"><span aria-hidden="true">←</span></button>
+          <button class="edge edge-next" type="button" data-step="1" aria-label="Próximo tênis"><span aria-hidden="true">→</span></button>
+          <div class="drag-guide mono" id="drag-guide" hidden>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11a8 8 0 0 1 13-5l2 2M20 3v6h-6m6 4a8 8 0 0 1-13 5l-2-2m-1 5v-6h6"/></svg>
+            ARRASTE PARA GIRAR
+          </div>
+        </div>
+        <span class="render-status mono" id="render-status" role="status">PREPARANDO SCAN</span>
+        <span class="frame-mark left" aria-hidden="true"></span><span class="frame-mark right" aria-hidden="true"></span>
+      </div>
+
+      <div class="dock">
+        <span class="dock-caption mono" id="dock-caption">COLEÇÃO / 10 MODELOS</span>
+        <nav class="editions" aria-label="Ir para um tênis"></nav>
+        <details class="credits">
+          <summary class="mono">Créditos <span aria-hidden="true">↗</span></summary>
+          <div class="credits-panel">
+            <p>Estudo independente de portfólio da K2 Desenvolvimento Digital. Scans de terceiros com orientação e arquivos adaptados para a vitrine.</p>
+            <ul class="scan-credits"></ul>
+            <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Licença dos scans · CC BY 4.0</a>
+          </div>
+        </details>
+      </div>
+      <noscript>Ative o JavaScript para explorar a coleção em 3D.</noscript>
+    </section>
+    <section class="fitting-room" id="fitting-room" aria-labelledby="fitting-title" hidden>
+      <div class="fitting-stage">
+        <div class="fitting-heading">
+          <h1 id="fitting-title" tabindex="-1">Provador 3D</h1>
+          <p id="fitting-caption">Meu avatar</p>
+        </div>
+        <canvas id="fitting-canvas" aria-label="Prévia 3D do avatar com o look e o tênis selecionados"></canvas>
+        <p class="fitting-status" id="fitting-status" role="status"></p>
+        <div class="fitting-camera">
+          <div class="fitting-rotation" role="group" aria-label="Girar avatar">
+            <button type="button" data-turn="-1" aria-label="Girar para a esquerda">↶</button>
+            <button type="button" data-turn="1" aria-label="Girar para a direita">↷</button>
+          </div>
+          <div class="fitting-views" role="group" aria-label="Enquadramento">
+            <button type="button" data-view="body" aria-pressed="true">Corpo inteiro</button>
+            <button type="button" data-view="feet" aria-pressed="false">Zoom nos pés</button>
+          </div>
+        </div>
+      </div>
+      <aside class="fitting-panel" aria-label="Editor do avatar">
+        <div class="fitting-panel-heading">
+          <h2>Monte seu look</h2>
+          <button type="button" class="fitting-back" id="fitting-back">Voltar à vitrine <span aria-hidden="true">↗</span></button>
+        </div>
+        <div class="fitting-tabs" role="tablist" aria-label="Editar provador">
+          <button type="button" id="tab-looks" role="tab" aria-selected="true" aria-controls="fit-looks">Looks prontos</button>
+          <button type="button" id="tab-avatar" role="tab" aria-selected="false" aria-controls="fit-avatar" tabindex="-1">Avatar</button>
+          <button type="button" id="tab-shoes" role="tab" aria-selected="false" aria-controls="fit-shoes" tabindex="-1">Tênis</button>
+        </div>
+        <div class="fitting-options">
+          <div class="look-list" id="fit-looks" role="tabpanel" aria-labelledby="tab-looks"></div>
+          <div id="fit-avatar" role="tabpanel" aria-labelledby="tab-avatar" hidden>
+            <div class="fitting-field"><label for="avatar-name">Nome do avatar</label>
+              <input id="avatar-name" maxlength="28" placeholder="Meu avatar" autocomplete="off">
+            </div>
+            <div class="fitting-field"><label for="avatar-face">Rosto e penteado</label>
+              <select id="avatar-face"></select>
+            </div>
+            <div class="fitting-field"><label for="avatar-build">Porte</label>
+              <select id="avatar-build">
+                <option value="slim">Esbelto</option><option value="regular">Médio</option><option value="broad">Largo</option>
+              </select>
+            </div>
+            <fieldset class="fitting-field"><legend>Tom de pele</legend><div class="fitting-swatches" id="avatar-skins"></div></fieldset>
+            <fieldset class="fitting-field"><legend>Cor do cabelo</legend><div class="fitting-swatches" id="avatar-hairs"></div></fieldset>
+          </div>
+          <div class="fitting-shoes" id="fit-shoes" role="tabpanel" aria-labelledby="tab-shoes" hidden></div>
+        </div>
+        <div class="fitting-selection">
+          <img id="fitting-shoe-image" alt="">
+          <div><span class="mono">No avatar</span><strong id="fitting-shoe-name"></strong></div>
+          <button type="button" id="fitting-change-shoe">Trocar <span aria-hidden="true">↗</span></button>
+        </div>
+        <button class="foot-camera-entry" id="fitting-camera-open" type="button" aria-haspopup="dialog">Experimentar com a câmera <span aria-hidden="true">↗</span></button>
+      </aside>
+    </section>
+  </main>
+  <dialog class="foot-camera" id="foot-camera" aria-labelledby="foot-camera-title">
+    <div class="foot-camera-layout">
+      <header class="foot-camera-header">
+        <div>
+          <h2 id="foot-camera-title">No meu pé</h2>
+          <p id="foot-camera-status" role="status">A imagem fica no seu dispositivo.</p>
+        </div>
+        <button type="button" id="foot-camera-close" aria-label="Fechar câmera">×</button>
+      </header>
+      <div class="foot-camera-stage" id="foot-camera-stage" data-state="idle">
+        <video id="foot-camera-video" autoplay muted playsinline disablepictureinpicture></video>
+        <canvas id="foot-camera-model" aria-hidden="true"></canvas>
+        <div class="foot-camera-guide" aria-hidden="true"></div>
+        <button type="button" id="foot-camera-mark" aria-describedby="foot-camera-status" hidden>
+          <span id="foot-camera-crosshair" aria-hidden="true"></span>
+        </button>
+        <span class="foot-camera-point" id="foot-camera-heel" aria-hidden="true" hidden></span>
+        <div class="foot-camera-start" id="foot-camera-start-panel">
+          <img alt="" id="foot-camera-image">
+          <button type="button" id="foot-camera-start" autofocus>Ativar câmera</button>
+        </div>
+      </div>
+      <footer class="foot-camera-controls">
+        <label for="foot-camera-shoe">Tênis
+          <select id="foot-camera-shoe"></select>
+        </label>
+        <div class="foot-camera-actions" id="foot-camera-actions" hidden>
+          <label id="foot-camera-side-label" for="foot-camera-side" hidden>Pé
+            <select id="foot-camera-side">
+              <option value="right">Direito</option>
+              <option value="left">Esquerdo</option>
+            </select>
+          </label>
+          <button type="button" id="foot-camera-calibrate">Marcar pé</button>
+          <button type="button" id="foot-camera-auto" hidden>Automático</button>
+          <button type="button" id="foot-camera-stop">Desligar</button>
+        </div>
+      </footer>
+    </div>
+  </dialog>
+</body>
+</html>
+

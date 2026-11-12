@@ -1,0 +1,190 @@
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 13px;
+}
+.product-actions .try-on { margin: 0; }
+#camera-try-on, .foot-camera-entry {
+  border: 1px solid #ff9868;
+  background: #ff9868;
+  color: #211612;
+  font-weight: 700;
+  transition: background .2s, border-color .2s;
+}
+#camera-try-on:hover, .foot-camera-entry:hover { background: #ffba98; border-color: #ffba98; }
+.foot-camera-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 12px;
+  min-height: 44px;
+  margin-top: 10px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+body:has(.foot-camera[open]) { overflow: hidden; }
+.foot-camera {
+  width: min(760px, calc(100% - 28px));
+  max-width: none;
+  max-height: calc(100dvh - 28px);
+  padding: 0;
+  border: 1px solid #554337;
+  border-radius: 9px;
+  background: #211915;
+  color: var(--paper);
+  box-shadow: 0 22px 100px #000b;
+}
+.foot-camera::backdrop { background: #090604da; backdrop-filter: blur(10px); }
+.foot-camera[open] { animation: camera-open .24s var(--ease) both; }
+@keyframes camera-open {
+  from { opacity: 0; transform: translateY(9px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.foot-camera-layout { display: grid; gap: 1px; background: #564337; }
+.foot-camera-header, .foot-camera-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #211915;
+}
+.foot-camera-header h2 {
+  margin: 0;
+  font-size: clamp(23px, 4vw, 35px);
+  letter-spacing: -.06em;
+  line-height: 1;
+}
+#foot-camera-status {
+  min-height: 2.65em;
+  margin: 5px 0 0;
+  color: #e6d1c3;
+  font-size: 12px;
+  line-height: 1.3;
+}
+.foot-camera button, .foot-camera select {
+  min-height: 44px;
+  border: 1px solid #725743;
+  border-radius: 4px;
+  background: #2e221c;
+  color: #fff0e7;
+}
+.foot-camera button {
+  padding: 0 12px;
+  font-size: 12px;
+  transition: color .18s, background .18s, border-color .18s;
+}
+.foot-camera button:hover { border-color: var(--orange); background: #482f24; }
+.foot-camera button:disabled { cursor: wait; opacity: .6; }
+#foot-camera-close { width: 44px; padding: 0; font-size: 25px; line-height: 1; }
+.foot-camera-stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  height: min(56dvh, 510px);
+  min-height: 190px;
+  background: #110e0c;
+}
+.foot-camera-stage video, .foot-camera-stage canvas, .foot-camera-guide, #foot-camera-mark {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.foot-camera-stage video { object-fit: contain; }
+.foot-camera-stage[data-state="idle"] video, .foot-camera-stage[data-state="idle"] canvas { visibility: hidden; }
+.foot-camera-guide {
+  inset: 20% 22% 24%;
+  width: auto;
+  height: auto;
+  opacity: 0;
+  border-radius: 9px;
+  transition: opacity .22s;
+  background:
+    linear-gradient(var(--orange), var(--orange)) left top / 28px 2px,
+    linear-gradient(var(--orange), var(--orange)) left top / 2px 28px,
+    linear-gradient(var(--orange), var(--orange)) right top / 28px 2px,
+    linear-gradient(var(--orange), var(--orange)) right top / 2px 28px,
+    linear-gradient(var(--orange), var(--orange)) left bottom / 28px 2px,
+    linear-gradient(var(--orange), var(--orange)) left bottom / 2px 28px,
+    linear-gradient(var(--orange), var(--orange)) right bottom / 28px 2px,
+    linear-gradient(var(--orange), var(--orange)) right bottom / 2px 28px;
+  background-repeat: no-repeat;
+}
+.foot-camera-stage[data-state="searching"] .foot-camera-guide { opacity: .85; }
+#foot-camera-mark { padding: 0; border: 0; border-radius: 0; background: transparent; cursor: crosshair; pointer-events: auto; touch-action: manipulation; }
+#foot-camera-mark:focus-visible { outline-offset: -4px; }
+#foot-camera-crosshair, .foot-camera-point {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  border: 2px solid var(--orange);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #151010bf;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+#foot-camera-crosshair { opacity: 0; }
+#foot-camera-mark:focus-visible #foot-camera-crosshair { opacity: 1; }
+.foot-camera-point { background: var(--orange); }
+.foot-camera-start {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-rows: minmax(20px, 1fr) auto;
+  justify-items: center;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px 26px;
+  background: radial-gradient(ellipse at 50% 70%, #623521 0, #2c1a15 48%, #181210 75%);
+}
+.foot-camera-start img { width: min(75%, 380px); height: 100%; object-fit: contain; }
+#foot-camera-start {
+  border: 1px solid var(--orange);
+  background: var(--orange);
+  color: #211612;
+  padding: 0 22px;
+  font-weight: 700;
+}
+#foot-camera-start:hover { background: #ffba98; }
+.foot-camera-controls { align-items: end; flex-wrap: wrap; }
+.foot-camera-controls label {
+  display: grid;
+  gap: 3px;
+  color: #e6d1c3;
+  font-size: 11px;
+}
+.foot-camera-controls select { width: 100%; padding: 0 8px; font: 13px Space, Arial, sans-serif; }
+.foot-camera-controls > label { flex: 1 1 160px; min-width: 0; }
+.foot-camera-actions { display: flex; flex-wrap: wrap; align-items: end; gap: 5px; }
+.foot-camera-actions button { padding-inline: 8px; }
+#foot-camera-stop { color: #ffb996; }
+
+@media (max-width: 540px) {
+  .product-actions { margin-top: 8px; }
+  .foot-camera {
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+  }
+  .foot-camera-layout {
+    min-height: 100%;
+    grid-template-rows: auto minmax(180px, 1fr) auto;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  .foot-camera-stage { height: auto; }
+  .foot-camera-controls, .foot-camera-header { padding-inline: 10px; }
+  .foot-camera-controls { gap: 6px; }
+  .foot-camera-controls select { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .foot-camera[open] { animation: none; }
+  .foot-camera *, .foot-camera-entry { transition: none; }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "kickzone-acervo-3d",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/showroom.mjs --bundle --minify --format=iife --target=chrome109 --outfile=assets/showroom.js",
+    "check": "node --check src/showroom.mjs && node --check src/scene.mjs && node --check src/scan-model.mjs && node --check src/collection.mjs && node --check src/fitting.mjs && node --check src/fitting-scene.mjs && node --check src/footwear.mjs && node --check src/foot-camera.mjs && node --check src/foot-camera-scene.mjs && node --check src/foot-tracking.mjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.10",
+    "three": "0.180.0"
+  }
+}
